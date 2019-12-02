@@ -56,6 +56,7 @@ app.use(require('body-parser').json())
 app.use(require('body-parser').urlencoded({
 	extended: true
 }))
+app.use('/src', require('express').static('src'))
 
 app.use((req, res, next) => {
 	res.locals = {
@@ -220,7 +221,7 @@ function getWalletStatus() {
 		.then((stats) => {
 			terminal
 				.green('|').yellow(` Hashrate         : ${(stats.hashrate / 1000).toFixed(2)} kH/s\n`)
-				.green('|').yellow(` Blocks           : ${stats.walletBlockCount}\n`)
+				.green('|').yellow(` Sync status      : ${stats.walletBlockCount}/${stats.networkBlockCount} (${(stats.walletBlockCount * 100 / stats.networkBlockCount).toFixed(2)}%)\n`)
 				.green('|').yellow(` Peers            : ${stats.peerCount}\n`)
 
 			status = {
